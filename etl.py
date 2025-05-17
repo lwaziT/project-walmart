@@ -1,13 +1,19 @@
 import pandas as pd
+import pymysql
+from sqlalchemy import create_engine
+
+import psycopg2
 
 def extract():
     """ Extracts data from local csv file"""
+
     df = pd.read_csv('C:/Users/tobos/Desktop/Project-Walmart/walmart-10k-sales-datasets/Walmart.csv',
                      encoding_errors='ignore')
     return df
 
 def data_quality_check(df):
     """ Performs data quality checks on data set """
+
     print(f'Size of dataframe: {df.shape}')
     """ Find duplicates """
     print(f'Number of duplicates in dataset: {df.duplicated().sum()}')
@@ -18,7 +24,7 @@ def data_quality_check(df):
 def transform(df):
     """ Transform dataset: delete duplicate rows
                            delete rows with null values
-                           convert to column to float
+                           convert column to float
                            add new column
     """
     # Delete duplicates
@@ -40,3 +46,11 @@ data_quality_check(data)
 transformed_data = transform(data)
 data_quality_check(transformed_data)
 
+#MySQL connection
+engine_mysql = create_engine("mysql+pymysql://root:root@localhost:3306/project_walmart_db")
+
+try:
+    engine_mysql
+    print('Database connection successful')
+except:
+    print('Database connection failed')
