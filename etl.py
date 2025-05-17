@@ -46,7 +46,7 @@ data_quality_check(data)
 transformed_data = transform(data)
 data_quality_check(transformed_data)
 
-#MySQL connection
+# Establish MySQL connection
 engine_mysql = create_engine("mysql+pymysql://root:root@localhost:3306/project_walmart_db")
 
 try:
@@ -54,3 +54,6 @@ try:
     print('Database connection successful')
 except:
     print('Database connection failed')
+
+# Export transformed data to MySQL database
+transformed_data.to_sql('project_walmart_db', con=engine_mysql, if_exists='append', index=False)
