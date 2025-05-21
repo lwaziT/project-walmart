@@ -64,10 +64,17 @@ def load_to_mysql(df, table_name, db_url):
         raise
 
 if __name__ == "__main__":
+
+    # Extract from csv file
     data = extract()
+
+    # Perform data quality checks
     data_quality_checks(data)
 
+    # Transform data and store in variable
     transformed_data = transform(data)
+
+    # Perform data quality checks on transformed data
     data_quality_checks(transformed_data)
 
     # Establish MySQL connection
