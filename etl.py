@@ -6,7 +6,7 @@ import logging
 logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
 
 def extract():
-    """ Extracts data from local csv file"""
+    """ Extracts data from a local csv file"""
     filepath = 'C:/Users/tobos/Desktop/Project-Walmart/walmart-10k-sales-datasets/Walmart.csv'
 
     try:
@@ -30,6 +30,7 @@ def transform(df):
                     Drops rows with null values
                     Converts 'unit_price' column to float
                     Adds 'total' column
+                    Rounds off 'total' column to two decimal places
     """
     # Delete duplicates
     df.drop_duplicates(inplace=True)
@@ -44,8 +45,10 @@ def transform(df):
         logging.error(f'Failed to convert data into float: {e}')
         raise
 
-    # Create new column 'total'
+    # Create a new column 'total'
     df['total'] = df['unit_price'] * df['quantity']
+    df['total'] = df['total'].round(2)
+
     logging.info("Transformation complete.")
     return df
 
@@ -65,7 +68,7 @@ def load_to_mysql(df, table_name, db_url):
 
 if __name__ == "__main__":
 
-    # Extract from csv file
+    # Extract from a csv file
     data = extract()
 
     # Perform data quality checks
